@@ -53,7 +53,11 @@ async def detect(request: Request):
         # Run object detection using OpenAI Vision
         detection_result = detect_object(image_url)
 
-        return {"result": detection_result}
+        # return {"result": detection_result}
+        return {
+                    "object_name": detection_result,
+                    "confidence": float(1.0),
+                }
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
