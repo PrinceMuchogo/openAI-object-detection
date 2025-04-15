@@ -55,7 +55,7 @@ async def detect(request: Request):
 
         # return {"result": detection_result}
         return {
-                    "object_name": "detection_result",
+                    "object_name": "detectionresult",
                     "confidence": float(1.0),
                 }
 
