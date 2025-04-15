@@ -16,7 +16,7 @@ def detect_object(image_url: str) -> str:
             {
                 "role": "user",
                 "content": [
-                    {"type": "text", "text": "Please identify any potential obstacles in the image. Just list the objects that could be a hazard."},
+                    {"type": "text", "text": "Please identify any potential obstacles in the image. Just list the objects that could be a hazard. Just return a single object name"},
                     {"type": "image_url", "image_url": {"url": image_url}}
                 ],
             },
