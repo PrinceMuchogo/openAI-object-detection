@@ -18,7 +18,7 @@ from app.utils.upload_image import upload_image
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = FastAPI(
-    title="Object Detection API",
+    title="OpenAi Object Detection API",
     version="1.1.0",
 )
 
@@ -37,6 +37,8 @@ class MultipleObjectDetectionResponse(BaseModel):
     detections: List[ObjectDetectionResponse]
 
 
+latest_text = {"message": "Hello from smart glass !"}
+
 @app.post("/detect")
 async def detect(request: Request):
     try:
@@ -53,19 +55,33 @@ async def detect(request: Request):
         # Run object detection using OpenAI Vision
         detection_result = detect_object(image_url)
 
-        # return {"result": detection_result}
+        # ✨ Update the latest_text global dict here
+        latest_text["message"] = f"Detected object: {detection_result}"
+
         return {
-                    "object_name": detection_result,
-                    "confidence": float(1.0),
-                }
+            "object_name": detection_result,
+            "confidence": float(1.0),
+        }
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
+
     
 
 @app.get("/")
 def root():
     return {"message": "Object Detection API is running!"}
+
+
+
+@app.get("/latest-text")
+def get_text():
+    return latest_text
+
+@app.get("/set-text")
+def set_text():
+    latest_text["message"] = "new text"
+    return {"status": "ok"}
 
 if __name__ == "__main__":
     import uvicorn
